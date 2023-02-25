@@ -22,8 +22,12 @@ const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = "asdjdqwpoklc";
 
 app.use(
-  cors()
+  cors({
+    credentials: true,
+    origin: "http://localhost:5173",
+  })
 );
+
 mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGO_URL);
 
