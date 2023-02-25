@@ -33,7 +33,7 @@ mongoose.connect(process.env.MONGO_URL);
 app.get("/test", (req, res) => {
   res
     .cookie("token", "hi", {
-      sameSite: "none",
+      sameSite: "lax",
       secure: true,
     })
     .json("ok");
@@ -70,7 +70,7 @@ app.post("/login", async (req, res) => {
           if (err) throw err;
           res
             .cookie("token", token, {
-              sameSite: true,
+              sameSite: "none",
               secure: true,
             })
             .json(user);
