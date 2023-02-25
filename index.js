@@ -68,7 +68,7 @@ app.post("/login", async (req, res) => {
               sameSite: true,
               secure: true,
             })
-            .json(user);
+            .json(token);
         }
       );
     } else {
