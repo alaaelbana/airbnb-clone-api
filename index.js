@@ -31,12 +31,7 @@ mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGO_URL);
 
 app.get("/test", (req, res) => {
-  res
-    .cookie("token", "hi", {
-      sameSite: "lax",
-      secure: true,
-    })
-    .json("ok");
+  res.json("ok");
 });
 
 app.post("/register", async (req, res) => {
@@ -70,7 +65,7 @@ app.post("/login", async (req, res) => {
           if (err) throw err;
           res
             .cookie("token", token, {
-              sameSite: "none",
+              sameSite: "lax",
               secure: true,
             })
             .json(user);
@@ -98,7 +93,12 @@ app.get("/profile", (req, res) => {
 });
 
 app.post("/logout", (_, res) => {
-  res.cookie("token", "").json(true);
+  res
+    .cookie("token", "", {
+      sameSite: "lax",
+      secure: true,
+    })
+    .json(true);
 });
 
 app.post("/upload-by-link", async (req, res) => {
