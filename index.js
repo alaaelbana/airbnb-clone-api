@@ -22,7 +22,10 @@ const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = "asdjdqwpoklc";
 
 app.use(
-  cors()
+  cors({
+    credentials: true,
+    origin: "http://localhost:5173",
+  })
 );
 mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGO_URL);
@@ -60,7 +63,12 @@ app.post("/login", async (req, res) => {
         {},
         (err, token) => {
           if (err) throw err;
-          res.cookie("token", token).json(user);
+          res
+            .cookie("token", token, {
+              sameSite: true,
+              secure: true,
+            })
+            .json(user);
         }
       );
     } else {
