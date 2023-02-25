@@ -24,7 +24,10 @@ const jwtSecret = "asdjdqwpoklc";
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://airbnb-clone-nhqe.onrender.com/",
+    ],
   })
 );
 mongoose.set("strictQuery", false);
