@@ -65,7 +65,7 @@ app.post("/login", async (req, res) => {
           if (err) throw err;
           res
             .cookie("token", token, {
-              sameSite: "lax",
+              sameSite: "none",
               secure: true,
             })
             .json(user);
@@ -95,7 +95,7 @@ app.get("/profile", (req, res) => {
 app.post("/logout", (_, res) => {
   res
     .cookie("token", "", {
-      sameSite: "lax",
+      sameSite: "none",
       secure: true,
     })
     .json(true);
