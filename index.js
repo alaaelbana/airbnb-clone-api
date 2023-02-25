@@ -33,7 +33,7 @@ mongoose.connect(process.env.MONGO_URL);
 app.get("/test", (req, res) => {
   res
     .cookie("token", "hi", {
-      sameSite: true,
+      sameSite: "none",
       secure: true,
     })
     .json("ok");
