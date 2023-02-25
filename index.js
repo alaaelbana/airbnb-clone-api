@@ -30,6 +30,15 @@ app.use(
 mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGO_URL);
 
+function getUserDataFromReq(req) {
+  return new Promise((resolve, reject) => {
+    jwt.verify(req.cookies.token, jwtSecret, {}, async (err, data) => {
+      if (err) throw err;
+      resolve(data);
+    });
+  });
+}
+
 app.get("/test", (req, res) => {
   res.json("ok");
 });
@@ -216,10 +225,12 @@ app.get("/places", async (req, res) => {
   res.json(await PlaceModel.find());
 });
 
-app.post("/bookings", (req, res) => {
+app.post("/bookings", async (req, res) => {
+  const data = await getUserDataFromReq(req);
   const { place, checkIn, checkOut, maxGuests, username, phone, price } =
     req.body;
   BookingModel.create({
+    user: data.id,
     place,
     checkIn,
     checkOut,
@@ -236,4 +247,8 @@ app.post("/bookings", (req, res) => {
     });
 });
 
+app.get("/bookings", async (req, res) => {
+  const data = await getUserDataFromReq(req);
+  res.json(await BookingModel.find({ user: data.id }).populate("place"));
+});
 app.listen(4000);

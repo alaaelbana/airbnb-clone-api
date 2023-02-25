@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const BookingSchema = new Schema({
-  place: { type: Schema.Types.ObjectId, ref: "place" },
+  user: { type: Schema.Types.ObjectId, required: true },
+  place: { type: Schema.Types.ObjectId, required: true, ref: "Place" },
   checkIn: { type: Date, required: true },
   checkOut: { type: Date, required: true },
   maxGuests: { type: Number, required: true },
