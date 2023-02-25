@@ -31,7 +31,12 @@ mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGO_URL);
 
 app.get("/test", (req, res) => {
-  res.json("test ok");
+  res
+    .cookie("token", "hi", {
+      sameSite: true,
+      secure: true,
+    })
+    .json("ok");
 });
 
 app.post("/register", async (req, res) => {
